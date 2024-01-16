@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\{Request,RedirectResponse};
-use Illuminate\Contracts\View\{Factory, View};
-use App\Services\{ChampionshipPredictionService, TournamentTeamsService,FixtureService,TeamStandingService};
+use Illuminate\Http\Request; 
+use Illuminate\Http\RedirectResponse; 
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use App\Services\ChampionshipPredictionService;
+use App\Services\TournamentTeamsService;
+use App\Services\FixtureService;
+use App\Services\TeamStandingService;
 use Carbon\Carbon;
 
 class TournamentTeamsController extends Controller
@@ -63,7 +68,6 @@ class TournamentTeamsController extends Controller
 
     /**
      * @return Factory|View
-     * 
      */
     public function simulate(): Factory|View
     {
@@ -81,5 +85,27 @@ class TournamentTeamsController extends Controller
         $championshipPredictions = $this->championshipPredictionService->getTeamsByChampionshipPrediction();
 
         return view('simulation_view', compact('teamStandings', 'weeks', 'championshipPredictions'));
+    }
+
+    /**
+     * @return mixed
+     * 
+     */
+    public function playAllWeeks(): mixed
+    {
+        $this->fixtureService->simulateAllWeeks();
+        
+        return redirect()->route('simulation'); 
+    }
+
+    /**
+     * @return mixed
+     * 
+     */
+    public function playNextWeek(): mixed
+    {
+        $this->fixtureService->simulateOneWeek();
+
+        return redirect()->route('simulation'); 
     }
 }

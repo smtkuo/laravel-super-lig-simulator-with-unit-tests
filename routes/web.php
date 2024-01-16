@@ -18,5 +18,6 @@ Route::get('/', [TournamentTeamsController::class, 'index'])->name('homepage');
 
 Route::post('/generate-fixtures', [TournamentTeamsController::class, 'generateFixtures']);
 Route::get('/generate-fixtures', [TournamentTeamsController::class, 'generatedFixtures'])->name('generatedFixtures');
-
 Route::get('/simulation', [TournamentTeamsController::class, 'simulate'])->name('simulation');
+Route::get('/play-all-weeks', [TournamentTeamsController::class, 'playAllWeeks'])->name('play-all-weeks');
+Route::get('/play-next-week', [TournamentTeamsController::class, 'playNextWeek'])->name('play-next-week');

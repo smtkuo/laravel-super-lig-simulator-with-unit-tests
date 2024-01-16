@@ -8,7 +8,6 @@ abstract class BaseRepository
 {
     public function __construct(protected Model $model)
     {
-        $this->model = $model;
     }
 
     public function all()
@@ -16,17 +15,36 @@ abstract class BaseRepository
         return $this->model->all();
     }
 
-    public function find($id)
+    /**
+     * @param int $id
+     * 
+     * @return mixed
+     * 
+     */
+    public function find(int $id): mixed
     {
         return $this->model->find($id);
     }
 
-    public function create(array $attributes)
+    /**
+     * @param array $attributes
+     * 
+     * @return mixed
+     * 
+     */
+    public function create(array $attributes): mixed
     {
         return $this->model->create($attributes);
     }
 
-    public function update($id, array $attributes)
+    /**
+     * @param int $id
+     * @param array $attributes
+     * 
+     * @return mixed
+     * 
+     */
+    public function update(int $id, array $attributes): mixed
     {
         $group = $this->find($id);
         if ($group) {
@@ -36,12 +54,35 @@ abstract class BaseRepository
         return null;
     }
 
-    public function delete($id)
+    /**
+     * @param int $id
+     * 
+     * @return mixed
+     * 
+     */
+    public function delete(int $id): mixed
     {
         $group = $this->find($id);
         if ($group) {
             return $group->delete();
         }
         return false;
+    }
+
+    public function query()
+    {
+        return $this->model;
+    }
+
+    /**
+     * @param array $attributes
+     * @param array $values
+     * 
+     * @return mixed
+     * 
+     */
+    public function firstOrCreate(array $attributes, array $values = []): mixed
+    {
+        return $this->model->firstOrCreate($attributes, $values);
     }
 }

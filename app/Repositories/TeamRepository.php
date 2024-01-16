@@ -11,22 +11,28 @@ class TeamRepository extends BaseRepository
     {
         parent::__construct($model);
     }
-    
+
     /**
      * @return Collection|array
      * 
      */
     public function getAllTeamsWithStandings(): Collection|array
     {
-        return $this->model->with('standing')->get();
+        $teams = $this->model->with('standing')->get();
+        return $teams->sortByDesc(function ($team) {
+            return $team->standing->point ?? 0;
+        });
     }
-    
+
     /**
      * @return Collection
      * 
      */
     public function getTeamsByChampionshipPrediction(): Collection
     {
-        return $this->model->with('championshipPrediction')->get();
+        $teams = $this->model->with('championshipPrediction')->get();
+        return $teams->sortByDesc(function ($team) {
+            return $team->championshipPrediction->championship_probability ?? 0;
+        });
     }
 }

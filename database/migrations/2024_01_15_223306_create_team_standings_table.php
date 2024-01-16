@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('drawn')->default(0);
             $table->integer('lost')->default(0);
             $table->integer('goal_difference')->default(0);
+            $table->integer('point')->default(0);
             $table->timestamps();
         });
     }

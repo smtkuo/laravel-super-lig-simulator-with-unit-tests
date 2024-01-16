@@ -3,7 +3,8 @@
 namespace App\Repositories;
 
 use App\Models\Fixture;
-use Illuminate\Database\Eloquent\{Builder,Model};
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
 class FixtureRepository extends BaseRepository
