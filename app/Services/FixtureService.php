@@ -69,7 +69,7 @@ class FixtureService
      */
     public function simulateAllWeeks(): void
     {
-        $fixtures = $this->fixtureRepository->query()->where('played', false)->get();
+        $fixtures = $this->fixtureRepository->model()->where('played', false)->get();
 
         foreach ($fixtures as $fixture) {
             $this->simulateMatch($fixture);
@@ -84,12 +84,17 @@ class FixtureService
      */
     public function simulateOneWeek(): void
     {
-        $weeks = $this->fixtureRepository->query()
-            ->where('played', false)
-            ->get()
-            ->groupBy(function ($fixture) {
-                return Carbon::parse($fixture->match_date)->weekOfYear;
-            });
+        $fixtures = $this->fixtureRepository->getFixturesOrderedByDate();
+        $weeks = $fixtures->where('played',false)->groupBy(function ($data) {
+            $parsedDate = Carbon::parse($data->match_date);
+            $weekNumber = $parsedDate->weekOfYear;
+        
+            $startOfYear = Carbon::createFromDate($parsedDate->year, 1, 1);
+            $firstWeekNumber = $startOfYear->weekOfYear;
+            
+            return $weekNumber - $firstWeekNumber + 1;
+        });
+
 
         foreach ($weeks as $fixtures) {
             foreach ($fixtures as $fixture) {
@@ -156,12 +161,12 @@ class FixtureService
      */
     public function calculateChampionshipPredictions(): void
     {
-        $teamStandings = $this->teamStandingRepository->query()->all();
+        $teamStandings = $this->teamStandingRepository->model()->all();
 
         foreach ($teamStandings as $standing) {
             $probability = $this->calculateProbability($standing, $teamStandings);
             
-            $this->championshipPredictionRepository->query()->updateOrCreate(
+            $this->championshipPredictionRepository->model()->updateOrCreate(
                 ['team_id' => $standing->team_id],
                 ['championship_probability' => $probability]
             );
@@ -243,5 +248,24 @@ class FixtureService
 
         $homeTeamStanding->save();
         $awayTeamStanding->save();
+    }
+
+    
+    /**
+     * @return void
+     * 
+     */
+    public function resetTournament(): void
+    {
+        $this->fixtureRepository->model()->query()->update([
+            'winning_team_id' => null,
+            'losing_team_id' => null,
+            'draw' => 0,
+            'home_team_goals' => null,
+            'away_team_goals' => null,
+            'played' => false
+        ]);
+        $this->teamStandingRepository->model()->query()->delete();
+        $this->championshipPredictionRepository->model()->query()->delete();
     }
 }

@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
-use App\Repositories\{TeamRepository,TeamStandingRepository};
+use App\Repositories\TeamRepository;
+use App\Repositories\TeamStandingRepository;
+use Illuminate\Database\Eloquent\Collection;
 
 class TeamStandingService
 {
@@ -12,7 +14,11 @@ class TeamStandingService
     )
     {}
 
-    public function getAllTeamStandings()
+    /**
+     * @return Collection|array
+     * 
+     */
+    public function getAllTeamStandings(): Collection|array
     {
         return $this->teamRepository->getAllTeamsWithStandings();
     }

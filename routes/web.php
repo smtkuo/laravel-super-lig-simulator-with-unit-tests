@@ -21,3 +21,4 @@ Route::get('/generate-fixtures', [TournamentTeamsController::class, 'generatedFi
 Route::get('/simulation', [TournamentTeamsController::class, 'simulate'])->name('simulation');
 Route::get('/play-all-weeks', [TournamentTeamsController::class, 'playAllWeeks'])->name('play-all-weeks');
 Route::get('/play-next-week', [TournamentTeamsController::class, 'playNextWeek'])->name('play-next-week');
+Route::get('/reset-tournament', [TournamentTeamsController::class, 'resetTournament'])->name('reset-tournament');

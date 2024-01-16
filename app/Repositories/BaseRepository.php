@@ -69,7 +69,7 @@ abstract class BaseRepository
         return false;
     }
 
-    public function query()
+    public function model()
     {
         return $this->model;
     }

@@ -84,7 +84,7 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
             <a href="{{route('play-all-weeks')}}" class="inline-block px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 text-center">Play All Weeks</a>
             <a href="{{route('play-next-week')}}" class="inline-block px-4 py-2 bg-green-500 text-white rounded hover:bg-green-700 text-center">Play Next Week</a>
-            <a href="#" class="inline-block px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700 text-center">Reset Data</a>
+            <a href="{{route('reset-tournament')}}" class="inline-block px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700 text-center">Reset Data</a>
         </div>
     </div>
 @endsection

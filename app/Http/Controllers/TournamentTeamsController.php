@@ -73,7 +73,7 @@ class TournamentTeamsController extends Controller
     {
         $teamStandings = $this->teamStandingService->getAllTeamStandings();
         $fixtures = $this->fixtureService->getFixturesOrderedByDate();
-        $weeks = $fixtures->groupBy(function ($data) {
+        $weeks = $fixtures->where('played',false)->groupBy(function ($data) {
             $parsedDate = Carbon::parse($data->match_date);
             $weekNumber = $parsedDate->weekOfYear;
         
@@ -108,4 +108,18 @@ class TournamentTeamsController extends Controller
 
         return redirect()->route('simulation'); 
     }
+
+    
+    /**
+     * @return mixed
+     * 
+     */
+    public function resetTournament(): mixed
+    {
+        $this->fixtureService->resetTournament();
+
+        return redirect()->route('simulation'); 
+    }
+
+
 }
