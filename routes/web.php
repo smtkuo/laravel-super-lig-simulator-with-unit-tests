@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TournamentTeamsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [TournamentTeamsController::class, 'index'])->name('homepage');
+
+Route::post('/generate-fixtures', [TournamentTeamsController::class, 'generateFixtures']);
+Route::get('/generate-fixtures', [TournamentTeamsController::class, 'generatedFixtures'])->name('generatedFixtures');
+
+Route::get('/simulation', [TournamentTeamsController::class, 'simulate'])->name('simulation');
