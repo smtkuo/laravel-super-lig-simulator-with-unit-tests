@@ -48,7 +48,12 @@ class FixtureService
                 }
             }
         }
-        $this->fixtureRepository->resetAndSaveNewFixtures($fixtures);
+        $resetTourment = $this->resetTournament();
+        $resetAndSaveNewFixtures = $this->fixtureRepository->resetAndSaveNewFixtures($fixtures);
+
+        if(!$resetTourment || !$resetAndSaveNewFixtures){
+            return collect();
+        }
 
         return $fixtures;
     }
@@ -250,12 +255,11 @@ class FixtureService
         $awayTeamStanding->save();
     }
 
-    
     /**
-     * @return void
+     * @return bool
      * 
      */
-    public function resetTournament(): void
+    public function resetTournament(): bool
     {
         $this->fixtureRepository->model()->query()->update([
             'winning_team_id' => null,
@@ -265,7 +269,13 @@ class FixtureService
             'away_team_goals' => null,
             'played' => false
         ]);
-        $this->teamStandingRepository->model()->query()->delete();
-        $this->championshipPredictionRepository->model()->query()->delete();
+        $teamStanding = $this->teamStandingRepository->model()->query()->delete();
+        $championshipPrediction = $this->championshipPredictionRepository->model()->query()->delete();
+        
+        if(!$teamStanding || !$championshipPrediction){
+            return false;
+        }
+
+        return true;
     }
 }

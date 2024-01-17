@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Collection;
 
 abstract class BaseRepository
 {
@@ -10,7 +11,11 @@ abstract class BaseRepository
     {
     }
 
-    public function all()
+    /**
+     * @return Collection
+     * 
+     */
+    public function all(): Collection
     {
         return $this->model->all();
     }
@@ -69,7 +74,11 @@ abstract class BaseRepository
         return false;
     }
 
-    public function model()
+    /**
+     * @return Model
+     * 
+     */
+    public function model(): Model
     {
         return $this->model;
     }

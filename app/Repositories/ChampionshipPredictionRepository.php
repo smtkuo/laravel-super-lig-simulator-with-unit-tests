@@ -12,6 +12,7 @@ class ChampionshipPredictionRepository extends BaseRepository
     {
         parent::__construct($model);
     }
+
     /**
      * @param int $teamId
      * @param int $championshipProbability

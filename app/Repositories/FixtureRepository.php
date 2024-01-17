@@ -37,16 +37,18 @@ class FixtureRepository extends BaseRepository
     /**
      * @param Collection $fixtures
      * 
-     * @return void
+     * @return bool
      * 
      */
-    public function resetAndSaveNewFixtures(Collection $fixtures): void
+    public function resetAndSaveNewFixtures(Collection $fixtures): bool
     {
         $this->model->truncate();
 
         foreach ($fixtures as $fixture) {
             $fixture->save();
         }
+
+        return true;
     }
 
     /**
